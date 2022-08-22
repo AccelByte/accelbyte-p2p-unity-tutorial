@@ -1,0 +1,18 @@
+{
+  "Development": {
+    "ClientId": null,
+    "ClientSecret": ""
+  },
+  "Certification": {
+    "ClientId": null,
+    "ClientSecret": ""
+  },
+  "Production": {
+    "ClientId": null,
+    "ClientSecret": ""
+  },
+  "Default": {
+    "ClientId": "<<CLIENT_ID>>",
+    "ClientSecret": "<<CLIENT_SECRET>>"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "Development": {
+    "Namespace": null,
+    "UsePlayerPrefs": false,
+    "EnableDebugLog": false,
+    "DebugLogFilter": null,
+    "BaseUrl": null,
+    "RedirectUri": null,
+    "AppId": null,
+    "PublisherNamespace": null
+  },
+  "Certification": {
+    "Namespace": null,
+    "UsePlayerPrefs": false,
+    "EnableDebugLog": false,
+    "DebugLogFilter": null,
+    "BaseUrl": null,
+    "RedirectUri": null,
+    "AppId": null,
+    "PublisherNamespace": null
+  },
+  "Production": {
+    "Namespace": null,
+    "UsePlayerPrefs": false,
+    "EnableDebugLog": false,
+    "DebugLogFilter": null,
+    "BaseUrl": null,
+    "RedirectUri": null,
+    "AppId": null,
+    "PublisherNamespace": null
+  },
+  "Default": {
+    "Namespace": "<<CLIENT_NAMESPACE>>",
+    "UsePlayerPrefs": true,
+    "EnableDebugLog": true,
+    "DebugLogFilter": "Log",
+    "BaseUrl": "<<BASE_URL>>",
+    "UseTurnManager": true,
+    "TurnServerSecret": "<<ENVIRONMENT_TURN_SECRET>>",
+    "TurnServerUsername": "<<ENVIRONMENT_TURN_USERNAME>>",
+    "RedirectUri": "http://127.0.0.1",
+    "AppId": "<<GAME_APP_ID>>",
+    "PublisherNamespace": "<<PUBLISHER_NAMESPACE>>"
+  }
+}
