@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.accelbyte.networking": "https://github.com/AccelByte/accelbyte-unity-networking.git#0.2.1",
+    "com.accelbyte.networking": "https://github.com/AccelByte/accelbyte-unity-networking.git#0.2.2",
     "com.accelbyte.unitysdk": "https://github.com/AccelByte/accelbyte-unity-sdk.git#14.1.0",
     "com.unity.collab-proxy": "1.15.17",
     "com.unity.feature.development": "1.0.1",

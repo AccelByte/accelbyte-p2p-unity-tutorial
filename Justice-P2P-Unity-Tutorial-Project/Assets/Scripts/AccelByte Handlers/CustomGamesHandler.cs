@@ -425,19 +425,23 @@ public class CustomGamesHandler : MonoBehaviour
     /// <param name="clientId">the player's client id from NetworkManager</param>
     private void OnClientConnected(ulong clientId)
     {
-        if (!NetworkManager.Singleton.IsHost)
+        // if the local client is the client that just connected
+        if (clientId == NetworkManager.Singleton.LocalClient.ClientId)
         {
-            Debug.Log($"[OnClientConnected] Trying to send data via NetworkManager to {NetworkManager.ServerClientId} ||");
-            string messageJson = userSession.userId + ":" + userSession.displayName;
-            FastBufferWriter writer = new FastBufferWriter(1100, Unity.Collections.Allocator.Temp);
-            writer.WriteValueSafe(messageJson);
-            NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage("Register", NetworkManager.ServerClientId, writer);
-        }
+            if (!NetworkManager.Singleton.IsHost)
+            {
+                Debug.Log($"[OnClientConnected] Trying to send data via NetworkManager to {NetworkManager.ServerClientId} ||");
+                string messageJson = userSession.userId + ":" + userSession.displayName;
+                FastBufferWriter writer = new FastBufferWriter(1100, Unity.Collections.Allocator.Temp);
+                writer.WriteValueSafe(messageJson);
+                NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage("Register", NetworkManager.ServerClientId, writer);
+            }
 
-        Debug.Log($"[OnClientConnected] {clientId} || {NetworkManager.Singleton.LocalClientId} ||");
-        // move to SessionRoomPanel
-        CustomGamesWindow.SetActive(false);
-        GetComponent<SessionRoomHandler>().Setup();
+            Debug.Log($"[OnClientConnected] {clientId} || {NetworkManager.Singleton.LocalClientId} ||");
+            // move to SessionRoomPanel
+            CustomGamesWindow.SetActive(false);
+            GetComponent<SessionRoomHandler>().Setup();
+        }
 
     }
     #endregion

@@ -42,6 +42,7 @@ public class SessionRoomHandler : NetworkBehaviour
     private string currentSessionId;
     private bool isInitialized = false;
     private static bool isEmptySessionId = false;
+    private const int maxPlayer = 2;
 
     private NetworkList<PlayerInfo> playerInfoList;
     private NetworkVariable<bool> isGameStarted;
@@ -102,6 +103,7 @@ public class SessionRoomHandler : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             isGameStarted.Value = false;
+
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;
         }
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
@@ -303,10 +305,25 @@ public class SessionRoomHandler : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void StartGameServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        isGameStarted.Value = true;
-
+        // check if the LocalClient has permission access to write NetworkVariable
+        if (isGameStarted.CanClientWrite(NetworkManager.LocalClientId))
+        {
+            isGameStarted.Value = true;
+        }
+        
         // Use this to move to the Gameplay Scene
         //NetworkManager.Singleton.SceneManager.LoadScene("WatchGame", LoadSceneMode.Single);
+
+        // Reset ready state for all player
+        for (int i = 0; i < playerInfoList.Count; i++)
+        {
+            playerInfoList[i] = new PlayerInfo(
+                playerInfoList[i].clientId,
+                playerInfoList[i].userId,
+                playerInfoList[i].displayName,
+                false
+            );
+        }
     }
     #endregion
 
@@ -322,7 +339,8 @@ public class SessionRoomHandler : NetworkBehaviour
         LoopThroughTransformAndDestroy(teamAPanel);
         LoopThroughTransformAndDestroy(teamBPanel);
 
-        for (int i = 0; i < 2; i++)
+        // current display list only for 1vs1 mode
+        for (int i = 0; i < maxPlayer; i++)
         {
             if (playerInfoList.Count > i)
             {
@@ -371,7 +389,7 @@ public class SessionRoomHandler : NetworkBehaviour
         Debug.Log($"[SessionRoom] OnServerStarted => user: {GetComponent<CustomGamesHandler>().userSession.displayName}");
         playerInfoList.Add(new PlayerInfo
             (
-                NetworkManager.LocalClientId, 
+                NetworkManager.ServerClientId, 
                 GetComponent<CustomGamesHandler>().userSession.userId, 
                 GetComponent<CustomGamesHandler>().userSession.displayName, 
                 false
